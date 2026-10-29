@@ -1,1 +1,30 @@
-<!DOCTYPE html><html lang="ca"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Generador de dorsals</title><style>body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#f4f4f4} .wrap{max-width:1200px;margin:auto;display:grid;grid-template-columns:320px 1fr;gap:20px}.panel,.preview{background:#fff;padding:16px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.1)}label{display:block;margin-top:10px;font-weight:bold}input{width:100%;padding:8px;box-sizing:border-box}button{margin-top:16px;width:100%;padding:12px;border:none;background:#111;color:#fff;border-radius:8px;cursor:pointer}#bib{aspect-ratio:21/15;width:min(100%,900px);border:2px solid #ddd;display:flex;flex-direction:column}.band{height:16.67%;display:flex;align-items:center;justify-content:center;font-weight:700;text-align:center;padding:0 10px}.mid{flex:1;background:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center}.name{font-size:clamp(20px,4vw,48px);font-weight:700}.num{font-size:clamp(48px,10vw,120px);font-weight:900;line-height:1}@media(max-width:800px){.wrap{grid-template-columns:1fr}}</style></head><body><div class='wrap'><div class='panel'><label>Color base</label><input type='color' id='color'><label>Nom de la cursa</label><input id='race' value='NOM DE LA CURSA'><label>Nom</label><input id='name' value='NOM'><label>Número dorsal</label><input id='num' type='number' min='0' max='9999' value='0'><label>Running club</label><input id='club' value='RUNNING CLUB O FRASE DIVERTIDA'><button id='dl'>Descarrega PDF</button></div><div class='preview'><div id='bib'><div id='top' class='band'></div><div class='mid'><div id='n' class='name'></div><div id='d' class='num'></div></div><div id='bot' class='band'></div></div></div></div><script>const rnd='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');color.value=rnd;function up(){const c=color.value;top.style.background=bot.style.background=c;top.style.color=bot.style.color='white';n.style.color=d.style.color=c;top.textContent=race.value.toUpperCase();n.textContent=name.value.toUpperCase();d.textContent=String(num.value).padStart(4,'0');bot.textContent=club.value.toUpperCase();}document.querySelectorAll('input').forEach(i=>i.addEventListener('input',up));up();dl.onclick=()=>{dl.style.transform='scale(.97)';setTimeout(()=>dl.style.transform='',120);const w=window.open('','_blank');w.document.write('<html><head><style>@page{size:A4;margin:1cm}body{display:flex;justify-content:center;align-items:flex-start}.bib{width:21cm;height:15cm;border:1px solid #aaa;display:flex;flex-direction:column;font-family:Arial}.band{height:2.5cm;display:flex;align-items:center;justify-content:center;font-weight:bold}.mid{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center}.name{font-size:1.2cm;font-weight:bold}.num{font-size:3cm;font-weight:900}.w{color:white}</style></head><body>'+bib.outerHTML+'</body></html>');w.document.close();setTimeout(()=>{w.print();},300);};</script></body></html>
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador de dorsals</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Generador de dorsals</h1>
+<div class="controls">
+<label>Color base <input type="color" id="color"></label>
+<label>Nom de la cursa <input type="text" id="race" value="NOM DE LA CURSA"></label>
+<label>Nom <input type="text" id="name" value="NOM"></label>
+<label>Número dorsal <input type="number" id="bib" min="0" max="9999" value="0"></label>
+<label>Running club o frase divertida <input type="text" id="club" value="RUNNING CLUB O FRASE DIVERTIDA"></label>
+<button id="download">Descarrega PDF</button>
+</div>
+<div class="preview-wrap">
+<h3>Vista prèvia (21 × 15 cm)</h3>
+<div id="bibCard" class="bib-card">
+<div class="band top"><span id="racePreview"></span></div>
+<div class="middle"><div id="namePreview"></div><div id="bibPreview"></div></div>
+<div class="band bottom"><span id="clubPreview"></span></div>
+</div>
+</div></div>
+<script src="script.js"></script>
+</body></html>
